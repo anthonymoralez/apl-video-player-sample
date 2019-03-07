@@ -21,7 +21,7 @@ ask deploy
 ## Adding your own videos
 Your videos must be in MP4 format, hosted on a publicly accessible host with an https url. 
 
-In the [/lambda/custom/lib/videoData.json](/lambda/custom/lib/videoData.json) replace the `source.url` with the url of your video. You can also as a title and a thumbnail image.
+In the [/lambda/custom/lib/videoData.json](/lambda/custom/lib/videoData.json) replace the `source.url` with the url of your video. You can also add a title and a thumbnail image.
 
 
 ## The Meetup
