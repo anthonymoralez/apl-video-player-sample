@@ -1,0 +1,130 @@
+{
+  "type": "APL",
+  "version": "1.0",
+  "theme": "dark",
+  "import": [],
+  "resources": [],
+  "styles": {},
+  "layouts": {
+    "VideoList": {
+      "parameters": [
+        {
+          "name": "listdata",
+          "type": "any"
+        }
+      ],
+      "items": [
+        {
+          "type": "Container",
+          "direction": "row",
+          "alignItems": "stretch",
+          "justifyContent": "center",
+          "paddingLeft": "5vw",
+          "width": "100vw",
+          "height": "100vh",
+          "items": [
+            {
+              "type": "TouchWrapper",
+              "item": [
+                {
+                  "type": "Text",
+                  "text": "&lt;",
+                  "height": "100vh",
+                  "width": "10vw",
+                  "color": "#FFFFFF"
+                }
+              ],
+              "onPress": [
+                {
+                  "type": "SetPage",
+                  "componentId": "videos",
+                  "position": "relative",
+                  "value": -1
+                }
+              ]
+            },
+            {
+              "type": "Pager",
+              "id": "videos",
+              "width": "80vw",
+              "height": "100vh",
+              "grow": 1,
+              "data": "${listdata}",
+              "items": [
+                {
+                  "type": "TouchWrapper",
+                  "width": "80vw",
+                  "height": "100vh",
+                  "onPress": [
+                    {
+                      "type": "SendEvent",
+                      "arguments": [
+                        "PlayVideo",
+                        "${data.id}"
+                      ]
+                    }
+                  ],
+                  "item": [
+                    {
+                      "type": "Container",
+                      "alignItems": "center",
+                      "height": "100vh",
+                      "width": "80vw",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "source": "${data.image.url}",
+                          "height": "90vh",
+                          "width": "80vw",
+                          "alignSelf": "stretch"
+                        },
+                        {
+                          "type": "Text",
+                          "text": "${data.title}",
+                          "color": "#FFFFFF"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "TouchWrapper",
+              "width": "10vw",
+              "height": "100vh",
+              "item": [
+                {
+                  "type": "Text",
+                  "text": ">",
+                  "height": "100vh",
+                  "width": "10vw"
+                }
+              ],
+              "onPress": [
+                {
+                  "type": "SetPage",
+                  "componentId": "videos",
+                  "position": "relative",
+                  "value": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "mainTemplate": {
+    "parameters": [
+      "payload"
+    ],
+    "items": [
+      {
+        "type": "VideoList",
+        "listdata": "${payload.list.data}"
+      }
+    ]
+  }
+}
+
