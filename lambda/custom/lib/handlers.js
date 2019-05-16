@@ -40,10 +40,7 @@ const PreviousNextIntentHandler = {
   canHandle(handlerInput) {
     console.log("PreviousNextIntentHandler");
     const request = handlerInput.requestEnvelope.request
-    return (request.type === 'IntentRequest' &&
-      (request.intent.name === 'AMAZON.NextIntent' || request.intent.name === 'AMAZON.PreviousIntent')) ||
-      (request.type === 'Alexa.Presentation.APL.UserEvent' &&
-        (request['arguments'].includes('NextVideo') || request['arguments'].includes('PreviousVideo')));
+    return isNextIntent(handlerInput) || isPreviousIntent(handlerInput);
   },
   async handle(handlerInput) {
     const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
@@ -52,16 +49,17 @@ const PreviousNextIntentHandler = {
     if (sessionAttributes.currentVideo) {
       ordinal = Number.parseInt(sessionAttributes.currentVideo.ordinal, 10);
     }
-    if ( ( handlerInput.requestEnvelope.request.intent &&
-      handlerInput.requestEnvelope.request.intent.name === 'AMAZON.NextIntent') ||
-      ( handlerInput.requestEnvelope.request.type === 'Alexa.Presentation.APL.UserEvent' &&
-        handlerInput.requestEnvelope.request.arguments.includes('NextVideo') ) ) {
-      ordinal = (ordinal + 1) % videoItems.length;
+    console.log(`Current Video Ordinal: ${ordinal}`);
+    var index = ordinal - 1
+    if (isNextIntent(handlerInput)) {
+      index = (index + 1) % videoItems.length;
     } else {
-      ordinal = (ordinal + videoItems.length - 1) % videoItems.length;
+      index = (index + videoItems.length - 1) % videoItems.length;
     }
+    ordinal = index + 1;
+    console.log(`Next Video Ordinal: ${ordinal}`);
 
-    const video = sessionAttributes.videos[ordinal - 1];
+    const video = videoItems[index];
     sessionAttributes.currentVideo = { ordinal, videoId: video.id, playing: true };
     handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
     return handlerInput.responseBuilder
@@ -218,6 +216,17 @@ const HelpHandler = {
   }
 };
 
+function isNextIntent(handlerInput) {
+  const request = handlerInput.requestEnvelope.request;
+  return (request.intent && request.intent.name === 'AMAZON.NextIntent')
+    || (request.type === 'Alexa.Presentation.APL.UserEvent' && (request['arguments'].includes('NextVideo')));
+}
+
+function isPreviousIntent(handlerInput) {
+  const request = handlerInput.requestEnvelope.request;
+  return (request.intent && request.intent.name === 'AMAZON.PreviousIntent')
+    || (request.type === 'Alexa.Presentation.APL.UserEvent' && (request['arguments'].includes('PreviousVideo')));
+}
 
 function supportsAPL(handlerInput) {
   const supportedInterfaces = getSupportedInterfaces(handlerInput);

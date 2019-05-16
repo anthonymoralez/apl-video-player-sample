@@ -2,16 +2,19 @@
   {
     "title":"Video Number One",
     "image":{"url":""},
-    "source":{"url":""}
+    "source":{"url":""},
+    "ordinal": 1
   },
   {
     "title":"Video Number Two",
     "image":{"url":""},
-    "source":{"url":""}
+    "source":{"url":""},
+    "ordinal": 2
   },
   {
     "title":"Video Three",
     "image":{"url":""},
-    "source":{"url":""}
+    "source":{"url":""},
+    "ordinal": 3
   }
 ]
