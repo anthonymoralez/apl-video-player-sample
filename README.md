@@ -14,7 +14,7 @@ This sample skill can be used to create a video skill using the Alexa Presentati
 
 ```javascript
 ask new --url https://github.com/anthonymoralez/apl-video-player-sample --name apl-video-player-sample
-cd sauce-boss
+cd apl-video-player-sample
 ask deploy
 ```
 
